@@ -8,6 +8,7 @@ const taskStatus = {
     COMPLETED: 'completed'
 } as const
 
+export const taskStatusEnum = Object.values(taskStatus);
 export type TaskStatus = typeof taskStatus[keyof typeof taskStatus]
 
 export interface ITask extends Document {
