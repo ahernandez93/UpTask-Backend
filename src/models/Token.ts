@@ -3,7 +3,7 @@ import mongoose, { Schema, Document, Types } from "mongoose";
 export interface IToken extends Document {
     token: string,
     user: Types.ObjectId,
-    createdAt: Date
+    expiresAt: Date
 }
 
 const TokenSchema: Schema = new Schema({
@@ -15,9 +15,9 @@ const TokenSchema: Schema = new Schema({
         type: Types.ObjectId,
         ref: 'User'
     },
-    createdAt: {
+    expiresAt: {
         type: Date,
-        default: Date.now(),
+        default: Date.now,
         expires: '10m'
     }
 })
