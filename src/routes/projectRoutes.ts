@@ -7,6 +7,7 @@ import { projectExists } from "../middleware/project";
 import { taskBelongsToProject, taskExists } from "../middleware/task";
 import { taskStatusEnum } from "../models/Task";
 import { authenticate } from "../middleware/auth";
+import { TeamMemberController } from "../controllers/TeamController";
 
 const router = Router();
 
@@ -87,6 +88,29 @@ router.post("/:projectId/tasks/:taskId/status",
         .isIn(Object.values(taskStatusEnum)).withMessage(`Estado inválido. Los estados válidos son: ${Object.values(taskStatusEnum).join(", ")}.`),
     handleInputErrors,
     TaskController.updateStatus
+)
+
+/**v Routes for Teams */
+router.post("/:projectId/team/find",
+    body('email').isEmail().toLowerCase().withMessage('Email no valido'),
+    handleInputErrors,
+    TeamMemberController.findMemberByEmail
+)
+
+router.get("/:projectId/team",
+    TeamMemberController.getProjectTeam
+)
+
+router.post("/:projectId/team",
+    body('id').isMongoId().withMessage('ID no valido'),
+    handleInputErrors,
+    TeamMemberController.addMemberById
+)
+
+router.delete("/:projectId/team",
+    body('id').isMongoId().withMessage('ID no valido'),
+    handleInputErrors,
+    TeamMemberController.removeMemberById
 )
 
 export default router;
