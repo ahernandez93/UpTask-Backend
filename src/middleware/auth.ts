@@ -25,15 +25,14 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
 
         if (typeof decoded === 'object' && decoded.id) {
             const user = await User.findById(decoded.id).select('_id name email')
-            if (user) {
-                req.user = user
-            } else {
+            if (!user) {
                 res.status(500).json({ error: 'Token no válido' })
             }
+
+            req.user = user
+            next()
         }
     } catch (error) {
         res.status(500).json({ error: 'Token no válido' })
     }
-
-    next()
 }

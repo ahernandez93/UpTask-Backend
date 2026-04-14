@@ -10,8 +10,9 @@ import { authenticate } from "../middleware/auth";
 
 const router = Router();
 
+router.use(authenticate);
+
 router.post("/",
-    authenticate,
     body('projectName').notEmpty().withMessage('El nombre del proyecto es requerido'),
     body('clientName').notEmpty().withMessage('El nombre del cliente es requerido'),
     body('description').notEmpty().withMessage('La descripción es requerida'),
